@@ -1,14 +1,11 @@
-package com.example.commerc
+package com.example.commerc.acticity
 
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
 open class BaseActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)

@@ -1,4 +1,4 @@
-package com.example.commerc
+package com.example.commerc.acticity
 
 import android.os.Bundle
 //import androidx.activity.ComponentActivity
@@ -52,8 +52,10 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.commerc.R
 //import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.commerc.model.CategoryModel
+import com.example.commerc.model.ItemsModel
 import com.example.commerc.model.SliderModel
 import com.example.commerc.viewmodel.MainViewModel
 import com.google.accompanist.pager.HorizontalPager
@@ -83,9 +85,12 @@ fun MainActivityScreen() {
     val viewModel = MainViewModel()
     val banners = remember { mutableStateListOf<SliderModel>() }
     val categories = remember { mutableStateListOf<CategoryModel>() }
+    val recommened = remember { mutableStateListOf<ItemsModel>() }
 
     var showBannerLoading by remember { mutableStateOf(true) }
     var showCategoryLoading by remember { mutableStateOf(true) }
+    var showRecommenedLoading by remember { mutableStateOf(true) }
+
 
     //Banner
     LaunchedEffect(Unit) {
@@ -103,6 +108,16 @@ fun MainActivityScreen() {
             categories.clear()
             categories.addAll(it)
             showCategoryLoading = false
+        }
+    }
+
+    //Recommended
+    LaunchedEffect(Unit) {
+        viewModel.loadRecommended()
+        viewModel.recommended.observeForever {
+            recommened.clear()
+            recommened.addAll(it)
+            showRecommenedLoading = false
         }
     }
 
@@ -131,7 +146,7 @@ fun MainActivityScreen() {
                     Column {
                         Text(text = "Welcome Back", color = Color.Black)
                         Text(
-                            text = "Jackie", color = Color.Black,
+                            text = "LaHoaiNam", color = Color.Black,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -149,21 +164,21 @@ fun MainActivityScreen() {
                     }
                 }
             }
-                //Banner
-                item {
-                    if (showBannerLoading) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .height(200.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            CircularProgressIndicator()
-                        }
-                    } else {
-                        Banners(banners)
+            //Banner
+            item {
+                if (showBannerLoading) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .height(200.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
                     }
+                } else {
+                    Banners(banners)
                 }
+            }
             item {
                 SectionTitle(title = "Category", actionText = "See All")
             }
@@ -180,6 +195,29 @@ fun MainActivityScreen() {
                 } else {
                     CategoryList(categories)
                 }
+            }
+
+            item {
+                SectionTitle(title = "Recommendation", actionText = "See All")
+            }
+
+            item {
+                if (showRecommenedLoading) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                } else {
+                    ListItems(items = recommened)
+                }
+
+            }
+            item {
+                Spacer(modifier = Modifier.height(100.dp))
             }
 
 
