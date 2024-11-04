@@ -1,5 +1,6 @@
 package com.example.commerc.acticity
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 import coil.compose.AsyncImage
 import com.example.commerc.model.ItemsModel
 
@@ -98,7 +100,12 @@ fun RecommendedItem(items: List<ItemsModel>, pos: Int) {
                 )
                 .height(175.dp)
                 .padding(8.dp)
-                .clickable { },
+                .clickable {
+                    val intent = Intent(context, DetailActivity::class.java).apply {
+                        putExtra("object", items[pos])
+                    }
+                    startActivity(context, intent, null)
+                },
             contentScale = ContentScale.Inside
         )
         Text(
