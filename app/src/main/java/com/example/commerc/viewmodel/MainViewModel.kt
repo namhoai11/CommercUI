@@ -85,4 +85,25 @@ class MainViewModel() : ViewModel() {
             }
         })
     }
+
+    fun loadFiltered(id: String) {
+        val Ref = firebaseDatabase.getReference("Items")
+        val query: Query = Ref.orderByChild("categoryId").equalTo(id)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val lists = mutableListOf<ItemsModel>()
+                for (childSnapShot in snapshot.children) {
+                    val list = childSnapShot.getValue(ItemsModel::class.java)
+                    if (list != null) {
+                        lists.add(list)
+                    }
+                }
+                _recommended.value = lists
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
 }

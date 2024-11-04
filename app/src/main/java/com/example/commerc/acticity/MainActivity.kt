@@ -1,6 +1,9 @@
 package com.example.commerc.acticity
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 //import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -47,32 +50,25 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.core.content.ContextCompat.startActivity
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.commerc.R
-//import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.commerc.model.CategoryModel
 import com.example.commerc.model.ItemsModel
 import com.example.commerc.model.SliderModel
 import com.example.commerc.viewmodel.MainViewModel
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
-
-//import com.google.accompanist.pager.rememberPagerState
-
-//import com.google.accompanist.pager.ExperimentalPagerApi
-//import com.google.accompanist.pager.ExperimentalPagerApi
 
 
 class MainActivity : BaseActivity() {
@@ -247,6 +243,7 @@ fun CategoryList(categories: List<CategoryModel>) {
     var selectedIndex by remember {
         mutableStateOf(-1)
     }
+    val context = LocalContext.current
     LazyRow(
         modifier = Modifier
             .fillMaxWidth(),
@@ -258,10 +255,15 @@ fun CategoryList(categories: List<CategoryModel>) {
                 isSelected = selectedIndex == index,
                 onItemClick = {
                     selectedIndex = index
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        val intent = Intent(context, ListItemsActivity::class.java).apply {
+                            putExtra("id", categories[index].id.toString())
+                            putExtra("title", categories[index].title)
+                        }
+                        startActivity(context, intent, null)
+                    }, 1000)
                 })
-
         }
-
     }
 }
 

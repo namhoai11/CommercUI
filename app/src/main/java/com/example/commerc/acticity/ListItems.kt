@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 //import androidx.compose.foundation.layout.FlowRowScopeInstance.weight
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 //import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -57,6 +58,29 @@ fun ListItems(items: List<ItemsModel>) {
 }
 
 @Composable
+fun ListItemsFullSize(items: List<ItemsModel>) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(start = 8.dp, end = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        items(items.size) { row ->
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                RecommendedItem(items, row)
+            }
+
+        }
+    }
+
+}
+
+@Composable
 fun RecommendedItem(items: List<ItemsModel>, pos: Int) {
     val context = LocalContext.current
     Column(
@@ -87,7 +111,8 @@ fun RecommendedItem(items: List<ItemsModel>, pos: Int) {
             modifier = Modifier.padding(top = 8.dp)
         )
         Row(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(top = 4.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
