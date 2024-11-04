@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Commerc"
         tools:targetApi="31">
         <activity
+            android:name=".acticity.CartActivity"
+            android:exported="false" />
+        <activity
             android:name=".acticity.DetailActivity"
             android:exported="false" />
         <activity

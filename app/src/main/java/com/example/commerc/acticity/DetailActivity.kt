@@ -1,5 +1,6 @@
 package com.example.commerc.acticity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -62,7 +63,7 @@ class DetailActivity : BaseActivity() {
                     managmentCart.insertItem(item)
                 },
                 onCartClick = {
-
+                    startActivity(Intent(this, CartActivity::class.java))
                 }
             )
         }
